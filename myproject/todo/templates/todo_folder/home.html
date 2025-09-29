@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Task Tracker</div>
+        <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <button class="login1"><a href="{% url 'login' %}">Hello, {{request.user}} !</a></button>
+            <button class="login1"><a href="{% url 'logout' %}">Logout</a></button>
+        </ul>
+    </nav>
+    <span class="hello-msg"><a href="{% url 'logout' %}"></a></span>
+
+</body>
+
+</html>

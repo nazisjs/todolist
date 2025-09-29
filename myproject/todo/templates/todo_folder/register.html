@@ -7,7 +7,10 @@
     <input type="email" name="email" placeholder="Email">
     <input type="password" name="password1" placeholder="Password">
     <input type="password" name="password2" placeholder="Confirm Password">
-    <button class="submit">Create User</button>
+    <button class="submit">Register Account</button>
+
+    {{form.errors}}
+
     <a href="{% url 'login' %}">
         <p>Already have an account?</p>
     </a>
