@@ -1,0 +1,11 @@
+{% extends 'todo_folder/home.html' %}
+{% block title %}List of tasks {% endblock %}
+{% block content %}
+<h3>{% if form.instance.pk %}Edit{% else %}Create{% endif %}a task</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Save</button>
+    <a href="{% url 'home' %}">Cancel</a>
+</form>
+{% endblock %}

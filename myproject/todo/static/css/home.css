@@ -5,7 +5,7 @@
  }
 
  nav {
-     background: #3077a4;
+     background: #303f49;
      color: white;
      display: flex;
      justify-content: space-between;
@@ -13,9 +13,9 @@
      padding: 10px 20px;
  }
 
- .logo {
-     font-size: 1.5rem;
-     font-weight: bold;
+ .logo_pic {
+     width: 150px;
+     cursor: pointer;
  }
 
  .nav-links {
@@ -26,7 +26,7 @@
 
  .register1,
  .login1 {
-     background-color: #263f64;
+     background-color: #576984;
      color: #fff;
      padding: 10px 10px;
      border-radius: 5px;
@@ -58,7 +58,7 @@
          position: absolute;
          top: 48px;
          left: -100%;
-         background: #3077a4;
+         background: #303f49;
          color: white;
          flex-direction: column;
          width: 100%;

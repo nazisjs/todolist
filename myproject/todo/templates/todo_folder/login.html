@@ -1,17 +1,21 @@
 {% load static %}
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/register.css' %}">
-<h2>Login</h2>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <button class="submit">Login</button>
+<div class="all">
+    <form method="POST" class="forms">
+        <h2>Login</h2>
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <button class="submit">Login</button>
 
-    {% for message in messages %}
-    <p id="messages">{{message}}</p>
-    {% endfor %}
+        {% for message in messages %}
+        <p id="messages">{{message}}</p>
+        {% endfor %}
 
-    <a href="{% url 'register' %}">
-        <p>Don't have an account?</p>
-    </a>
-</form>
+        <a href="{% url 'register' %}">
+            <p>Don't have an account?</p>
+        </a>
+    </form>
+</div>
+{% endblock %}
