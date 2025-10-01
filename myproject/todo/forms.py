@@ -10,7 +10,7 @@ class CreateUserForm(UserCreationForm):
         fields=['username','email','password1','password2']
 
 class TaskForm(forms.ModelForm):
-    class Meta:
+    class Meta: 
         model=Task
         fields=["title","description","deadline","status"]
         widget={

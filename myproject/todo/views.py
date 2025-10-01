@@ -9,6 +9,7 @@ from .forms import TaskForm
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from .filters import TaskFilter
+from datetime import timedelta
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -56,6 +57,15 @@ def home(request):
     tasks=Task.objects.filter(user_owner=request.user).order_by("deadline")
     myfilter=TaskFilter(request.GET,queryset=tasks)
     tasks=myfilter.qs
+
+    now=timezone.now()
+    for task in tasks:
+        if task.deadline<now:
+            task.deadline_status="overdue"
+        elif task.deadline-now <= timedelta(hours=24):
+            task.deadline_status="soon"
+        else:
+            task.deadline_status="normal"
     return render(request,"todo_folder/home.html",{"tasks":tasks, "choice_status": Task.CHOICE_STATUS,"myfilter":myfilter,})
 
 @login_required
@@ -67,6 +77,12 @@ def create_task(request):
         task.save()
         return redirect("home")
     return render(request,"todo_folder/task_create.html",{"form":form})
+
+def task_mark_done(request,pk):
+    task=get_object_or_404(Task,pk=pk)
+    task.status=Task.done_status
+    task.save()
+    return redirect('home')
 
 @login_required
 def update_task(request,pk):

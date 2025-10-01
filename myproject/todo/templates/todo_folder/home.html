@@ -21,30 +21,49 @@
     <span class="hello-msg"><a href="{% url 'logout' %}"></a></span>
 
     {% block content %}
-    <h3>My tasks</h3>
-
-    <form method="get">
+    <div class="filter_and_tasks">
+    <div class="main_container">
+    <div class="buttons">
+    <h3 class="text_main">My tasks</h3>
+    <a class="add_tasks" href="{% url 'task_create' %}"> Add a task </a>
+    </div>
+</div>
+<div class="main_box_for_filter">
+<div class="box_for_filter">
+    <form class="filtering" method="get">
     {{ myfilter.form.as_p }}
-    <button type="submit">Search</button>
+    <button class="submit_btn" type="submit">Search</button>
     </form>
-
-    <a href="{% url 'task_create' %}">Add a task</a>
+</div>
+</div>
+</div>
     <ul>
         {% for task in tasks %}
-        <li>
-            <p>Title:   <strong>{{task.title}}</strong></p>
-            <p>Description:  {{task.description|linebreaks}}</p>
-            <p>Deadline:     {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
-            <p>Status:  {{ task.get_status_display }}</p>
+        <div class="all">
+        <div class="box
+        {% if task.status == 'done' %}done{% endif %}
+        {% if task.deadline_status == 'soon' %}soon{% endif %}
+        {% if task.deadline_status == 'overdue' %}overdue{% endif %}">
+
+            <p class="text"> Title:   <strong>{{task.title}}</strong></p>
+            <p class="text"> Description:  {{task.description}}</p>
+            <p>Created: {{ task.created_at|date:"Y-m-d H:i" }}</p>
+            <p class="text"> Deadline:     {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
+            <p>Time left: {{ task.deadline|timeuntil }}</p>
+            <p class="text"> Status:  {{ task.get_status_display }}</p>
             <form action="{% url 'task_change_status' task.pk %}" method="POST">
                 {% csrf_token %}
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>
             </form>
-            <a href="{% url 'task_update' task.pk %}">Edit</a>
-            <a href="{% url 'task_delete' task.pk %}">Delete</a>
-        </li>
+            <div class="btns">
+            <a class="done_btn" href="{% url 'task_mark_done' task.pk %}">Done</a>
+            <a class="update_btn" href="{% url 'task_update' task.pk %}">Edit</a>
+            <a class="delete_btn" href="{% url 'task_delete' task.pk %}">Delete</a>
+            </div>
+        </div>
+    </div>
         {% empty %}
-        <li>No tasks have been submitted</li>
+        <p class="no-text">No tasks have been submitted</p>
         {% endfor %}
     </ul>
     {% endblock %}

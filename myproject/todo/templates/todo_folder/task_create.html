@@ -1,14 +1,15 @@
 {% extends 'todo_folder/home.html' %}
-
+{% load static %}
 {% block title %}Task Form{% endblock %}
 
 {% block content %}
-<h3>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Task</h3>
-
-<form method="POST">
+<h3 class="createtext">{% if form.instance.pk %}Edit{% else %}Create{% endif %} Task</h3>
+<div class="main">
+<form class="fill_form" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
-    <a href="{% url 'home' %}">Cancel</a>
+    <button class="submit_btn" type="submit">Create</button>
+    <a class="submit_btn" href="{% url 'home' %}">Cancel</a>
 </form>
+</div>
 {% endblock %}
