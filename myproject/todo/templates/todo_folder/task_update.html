@@ -1,11 +1,16 @@
 {% extends 'todo_folder/home.html' %}
+{% load static %}
 {% block title %}List of tasks {% endblock %}
+
 {% block content %}
-<h3>{% if form.instance.pk %}Edit{% else %}Create{% endif %}a task</h3>
-<form method="POST">
+<link rel="stylesheet" href="{% static 'css/update_task.css' %}">
+<h3 class="edit_text">{% if form.instance.pk %}Edit{% else %}{% endif %} a task</h3>
+<div class="edit_box_center">
+<form class="edit_form" method="POST" >
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit">Save</button>
-    <a href="{% url 'home' %}">Cancel</a>
+    <button class="save_btn" type="submit">Save</button>
+    <a class="submit_btn" href="{% url 'home' %}">Cancel</a>
 </form>
+</div>
 {% endblock %}
