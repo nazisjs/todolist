@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} Home {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -42,9 +43,9 @@
         {% for task in tasks %}
         <div class="all">
         <div class="box
-        {% if task.status == 'done' %}done{% endif %}
-        {% if task.deadline_status == 'soon' %}soon{% endif %}
-        {% if task.deadline_status == 'overdue' %}overdue{% endif %}">
+        {% if task.status == 'done' %}done
+        {% elif task.deadline_status == 'soon'%}soon
+        {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
 
             <p class="text"> Title:   <strong>{{task.title}}</strong></p>
             <p class="text"> Description:  {{task.description}}</p>
@@ -57,9 +58,9 @@
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>
             </form>
             <div class="btns">
-            <a class="done_btn" href="{% url 'task_mark_done' task.pk %}">Done</a>
-            <a class="update_btn" href="{% url 'task_update' task.pk %}">Edit</a>
-            <a class="delete_btn" href="{% url 'task_delete' task.pk %}">Delete</a>
+            <a class="done_btn" href="{% url 'task_mark_done' task.pk %}"><i class="fa-solid fa-check" ></i></a>
+            <a class="update_btn" href="{% url 'task_update' task.pk %}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="delete_btn" href="{% url 'task_delete' task.pk %}"><i class="fa-solid fa-trash"></i></a>
             </div>
         </div>
     </div>

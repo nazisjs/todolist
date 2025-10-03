@@ -24,9 +24,13 @@ SECRET_KEY = "django-insecure-$_y7et!iaplnv2k=7y1l#rj@i5!l^i49hk6f9a58wj_uil08l2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_USER="nmurat22@apec.edu.kz"
+EMAIL_HOST_PASSWORD="febs lirq lsqx ulwh"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     "todo",
     "django_filters",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

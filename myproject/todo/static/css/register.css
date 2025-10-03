@@ -4,12 +4,12 @@
     justify-content: center;
     padding: 20px 20px;
     align-items: center;
-    width: 400px;
+    width: 450px;
     height: auto;
     margin: auto;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .forms {
@@ -59,6 +59,17 @@ p {
     color: #253645;
     text-decoration: none;
     list-style-type: none;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+p:hover {
+    color: #357ab8;
+}
+
+h2 {
+    margin-bottom: 30px;
+    color: #253645;
 }
 
 a {

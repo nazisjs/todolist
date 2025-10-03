@@ -10,6 +10,26 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from .filters import TaskFilter
 from datetime import timedelta
+from django.core.mail import send_mail
+from django.conf import settings
+
+def send_task_reminder(task):
+    if task.user_owner.email:
+        send_mail(
+             "Reminder from Task Tracker!",
+            f"Hi {task.user_owner.username}! "
+            f"1 hour,more precisely: {task.deadline} left until your deadline: {task.title}. You better hurry up!",
+            settings.EMAIL_HOST_USER,
+            [task.user_owner.email],
+            fail_silently=False
+        )
+
+def reminder_deadline():
+    now=timezone.now()
+    one_hour=now+timedelta(hours=1)
+    tasks=Task.objects.filter(deadline__lte=one_hour, deadline__gt=now)
+    for task in tasks:
+        send_task_reminder(task)
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -27,7 +47,6 @@ def registerPage(request):
     context={'form':form}
     return render(request,'todo_folder/register.html',context)
 
-
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -44,7 +63,6 @@ def loginPage(request):
                 
         context={}
         return render(request,'todo_folder/login.html',context)
-
 
 def logoutUser(request):
     logout(request)
@@ -75,6 +93,7 @@ def create_task(request):
         task=form.save(commit=False)
         task.user_owner=request.user
         task.save()
+        send_task_reminder(task)
         return redirect("home")
     return render(request,"todo_folder/task_create.html",{"form":form})
 

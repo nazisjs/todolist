@@ -68,7 +68,7 @@
 
     .box {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         padding: 50px;
         width: 100%;
         max-width: 1250px;
@@ -82,15 +82,20 @@
     }
 
     .update_btn {
-        background-color: #859dc1;
+        background-color: #a8b6ca;
         color: #fff;
         padding: 10px 20px;
+        margin: 15px;
         border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
         text-decoration: none;
     }
 
     .btns {
-        padding: 15px 10px;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
     }
 
     .filtering {
