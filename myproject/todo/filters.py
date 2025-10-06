@@ -5,7 +5,10 @@ from django.utils import timezone
 class TaskFilter(django_filters.FilterSet):
     status=django_filters.ChoiceFilter(choices=Task.CHOICE_STATUS)
     expired_date=django_filters.BooleanFilter(method="filter_expired",label="Expired date")
-    deadline_time=django_filters.DateFromToRangeFilter(field_name="deadline",label="Deadline")
+    deadline_time=django_filters.DateFromToRangeFilter(field_name="deadline",label="Deadline",widget=django_filters.widgets.RangeWidget(
+        attrs={"type":"date"}
+    ),
+    )
 
     class Meta:
         model=Task

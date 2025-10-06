@@ -47,12 +47,11 @@
         {% elif task.deadline_status == 'soon'%}soon
         {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
 
-            <p class="text"> Title:   <strong>{{task.title}}</strong></p>
-            <p class="text"> Description:  {{task.description}}</p>
-            <p>Created: {{ task.created_at|date:"Y-m-d H:i" }}</p>
-            <p class="text"> Deadline:     {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
-            <p>Time left: {{ task.deadline|timeuntil }}</p>
+            <p class="text"> Title:<strong> {{task.title}}</strong></p>
+            <p class="text"> Description: {{task.description}}</p>
             <p class="text"> Status:  {{ task.get_status_display }}</p>
+            <p class="text"> Deadline: {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
+            <p>Time left: {{ task.deadline|timeuntil }}</p>
             <form action="{% url 'task_change_status' task.pk %}" method="POST">
                 {% csrf_token %}
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>

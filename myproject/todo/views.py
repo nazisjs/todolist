@@ -12,24 +12,37 @@ from .filters import TaskFilter
 from datetime import timedelta
 from django.core.mail import send_mail
 from django.conf import settings
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 def send_task_reminder(task):
     if task.user_owner.email:
         send_mail(
-             "Reminder from Task Tracker!",
+            "Reminder from Task Tracker!",
             f"Hi {task.user_owner.username}! "
-            f"1 hour,more precisely: {task.deadline} left until your deadline: {task.title}. You better hurry up!",
+            f"1 hour left until your deadline: {task.title}. You better hurry up!",
             settings.EMAIL_HOST_USER,
             [task.user_owner.email],
             fail_silently=False
         )
+        task.is_notified=True
+        task.save()
 
 def reminder_deadline():
     now=timezone.now()
-    one_hour=now+timedelta(hours=1)
-    tasks=Task.objects.filter(deadline__lte=one_hour, deadline__gt=now)
+    one_hour_later=now+timedelta(hours=1)
+    tasks=Task.objects.filter(
+        deadline__range=(one_hour_later,one_hour_later+timedelta(minutes=1)),
+        is_notified=False
+    )
+    
     for task in tasks:
         send_task_reminder(task)
+
+def start_scheduler():
+    scheduler=BackgroundScheduler()
+    scheduler.add_job(reminder_deadline,'interval',minutes=1)
+    scheduler.start()
 
 def registerPage(request):
     if request.user.is_authenticated:
@@ -93,7 +106,6 @@ def create_task(request):
         task=form.save(commit=False)
         task.user_owner=request.user
         task.save()
-        send_task_reminder(task)
         return redirect("home")
     return render(request,"todo_folder/task_create.html",{"form":form})
 

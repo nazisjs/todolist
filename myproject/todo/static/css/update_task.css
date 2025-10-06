@@ -1,47 +1,87 @@
-.edit_form {
+form.fill_form {
+    background-color: #a0c0ea;
+    width: 400px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0px 6px 15px rgba(139, 138, 138, 0.1);
 }
 
-.edit_box_center {
+form.fill_form:hover {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+p {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #29364b;
+    font-weight: bold;
+    text-align: center;
+}
+
+.main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 400px;
-    height: auto;
-    padding: 20px 20px;
-    margin: 30px auto;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    background-color: #a9bfe0;
+    margin-top: 20px;
 }
 
-.edit_text {
+.createtext {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #4b5568;
+    font-size: 22px;
+    font-weight: 600;
 }
 
 #id_title,
 #id_description,
-#id_deadline {
+#id_deadline,
+#id_status,
+.submit_btn {
+    width: 100%;
+    border: 1.5px solid #84a0c7;
     margin: 10px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     border-radius: 10px;
     text-align: center;
     padding: 10px 10px;
+
 }
 
-.save_btn {
-    background-color: #0d264c;
-    color: #fff;
+.create_btn,
+.cancel_btn {
+    width: 100%;
     padding: 10px 20px;
-    margin: 15px;
+    margin: 10px 8px 0 8px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 15px;
     text-align: center;
+    color: #fff;
     border: none;
     text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.create_btn {
+    background-color: #29364b;
+}
+
+.create_btn:hover {
+    background-color: #0d264c;
+}
+
+.cancel_btn {
+    background-color: #6c7073;
+}
+
+.cancel_btn:hover {
+    background-color: #55595d;
 }

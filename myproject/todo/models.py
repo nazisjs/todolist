@@ -15,6 +15,7 @@ class Task(models.Model):
     title=models.CharField(max_length=200)
     description=models.TextField(blank=True)
     deadline=models.DateTimeField()
+    is_notified=models.BooleanField(default=False)
     status=models.CharField(max_length=20,choices=CHOICE_STATUS,default=new_status)
     created_at=models.DateTimeField(auto_now_add=True)
     user_owner=models.ForeignKey(User,on_delete=models.CASCADE)
