@@ -46,16 +46,17 @@
         {% if task.status == 'done' %}done
         {% elif task.deadline_status == 'soon'%}soon
         {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
-
-            <p class="text"> Title:<strong> {{task.title}}</strong></p>
-            <p class="text"> Description: {{task.description}}</p>
+        <div class="all_requirements">
+            <h4 class="text1"><strong> {{task.title}}</strong></h4>
+            <p class="text">{{task.description}}</p>
             <p class="text"> Status:  {{ task.get_status_display }}</p>
             <p class="text"> Deadline: {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
-            <p>Time left: {{ task.deadline|timeuntil }}</p>
+            <p class="text">Time left: {{ task.deadline|timeuntil }}</p>
             <form action="{% url 'task_change_status' task.pk %}" method="POST">
                 {% csrf_token %}
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>
             </form>
+        </div>
             <div class="btns">
             <a class="done_btn" href="{% url 'task_mark_done' task.pk %}"><i class="fa-solid fa-check" ></i></a>
             <a class="update_btn" href="{% url 'task_update' task.pk %}"><i class="fa-solid fa-pen-to-square"></i></a>
