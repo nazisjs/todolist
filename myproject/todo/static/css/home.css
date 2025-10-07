@@ -14,6 +14,33 @@
         padding: 10px 20px;
     }
 
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 25px;
+        height: 18px;
+        cursor: pointer;
+        margin-right: 20px;
+    }
+
+    .menu-toggle::before,
+    .menu-toggle::after,
+    .menu-toggle div {
+        content: "";
+        display: block;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
+    }
+
+    .menu-toggle div {
+        height: 3px;
+        background-color: white;
+        border-radius: 2px;
+    }
+
+
     .logo_pic {
         width: 150px;
         cursor: pointer;
@@ -23,6 +50,7 @@
         display: flex;
         list-style: none;
         gap: 20px;
+        z-index: 1000;
     }
 
     .register1,
@@ -40,20 +68,6 @@
         text-decoration: none;
     }
 
-    .menu-toggle {
-        display: none;
-        flex-direction: column;
-        cursor: pointer;
-    }
-
-    .menu-toggle span {
-        width: 25px;
-        height: 3px;
-        background: white;
-        margin: 4px 0;
-        transition: 0.3s;
-    }
-
     .all {
         display: flex;
         justify-content: center;
@@ -64,15 +78,9 @@
     .text {
         color: #000000;
         padding: 10px 15px;
-        font-size: 14px;
+        font-size: 15px;
         text-align: left;
         align-items: center;
-    }
-
-    h4.text1 {
-        color: #1f252a;
-        align-items: center;
-        list-style-type: circle;
     }
 
     .box {
@@ -81,13 +89,13 @@
         padding: 20px 40px;
         width: 100%;
         height: auto;
-        max-width: 1200px;
+        max-width: 1240px;
         align-items: center;
         background-color: #bee9e8;
         border-radius: 20px;
         flex-wrap: wrap;
-        margin: 10px;
-        box-shadow: 5px 5px 5px rgba(116, 103, 103, 0.5);
+        margin: 8px;
+        box-shadow: 5px 5px 5px rgba(143, 141, 141, 0.336);
         color: #000000;
     }
 
@@ -124,20 +132,33 @@
         margin-top: 40px;
     }
 
+    .main_container {
+        display: flex;
+        background: transparent;
+        border: 1.5px solid rgba(179, 178, 178, 0.4);
+        justify-content: center;
+        width: 155px;
+        border-radius: 20px;
+        align-items: center;
+        height: 150px;
+        margin-top: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .text_main {
+        color: #1b4965;
+        font-size: 15px;
+    }
+
     .add_tasks {
-        padding: 12px 10px;
+        padding: 10px 10px;
         margin: 10px;
-        width: 100%;
+        width: 90%;
         background-color: #263f64;
         color: #fff;
         text-decoration: none;
         border-radius: 5px;
-    }
-
-    .main_container {
-        display: flex;
-        justify-content: center;
-        margin: 30px;
+        font-size: 15px;
     }
 
     .no-text {
@@ -175,7 +196,7 @@
 
     .box.done p.text {
         text-decoration: line-through;
-        color: gray;
+        color: rgb(95, 90, 90);
     }
 
     .box.soon {
@@ -188,8 +209,8 @@
 
     .box_for_filter {
         display: flex;
-        box-shadow: 5px 5px 5px rgba(238, 237, 237, 0.5);
-        background-color: #cae9ff;
+        box-shadow: 5px 5px 5px rgba(150, 149, 149, 0.238);
+        background-color: #b4d1e6;
         width: 100%;
         border-radius: 20px;
     }
@@ -236,12 +257,22 @@
         border: none;
     }
 
+
     @media (max-width: 768px) {
+        .nav {
+            background: #1b4965;
+        }
+
+        .menu-toggle {
+            display: flex;
+        }
+
         .nav-links {
             position: absolute;
             top: 48px;
+            z-index: 1000;
             left: -100%;
-            background: #303f49;
+            background: #1b4965;
             color: white;
             flex-direction: column;
             width: 100%;

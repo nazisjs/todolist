@@ -15,4 +15,4 @@ class TaskForm(forms.ModelForm):
         fields=["title","description","deadline","status"]
         widgets={
             "deadline":forms.DateTimeInput(attrs={"type":"datetime-local"}),
-            }
+        }

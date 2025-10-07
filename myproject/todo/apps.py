@@ -6,5 +6,6 @@ class TodoConfig(AppConfig):
     name = "todo"
 
     def ready(self):
-      from .views import start_scheduler
-      start_scheduler()
+      from .views import ReminderEmail
+      reminder_service=ReminderEmail()
+      reminder_service.start_scheduler()

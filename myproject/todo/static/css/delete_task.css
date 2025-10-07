@@ -18,7 +18,7 @@ body {
     width: 400px;
     height: auto;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 .delete_text {
@@ -27,6 +27,12 @@ body {
     color: rgb(78, 78, 78);
     font-size: 15px;
     margin-bottom: 30px;
+}
+
+.delete_text:hover {
+    color: #ed0000;
+    transition-duration: 0.5s;
+    cursor: pointer;
 }
 
 .delete_btn {
@@ -38,6 +44,12 @@ body {
     border-radius: 10px;
     text-decoration: none;
     border: none;
+    cursor: pointer;
+}
+
+.delete_btn:hover {
+    background-color: #5d88c7;
+    transition-duration: 0.3s;
 }
 
 .cancel_btn {
@@ -51,5 +63,9 @@ body {
     text-align: center;
     border: none;
     text-decoration: none;
+}
 
+.cancel_btn:hover {
+    background-color: #4a4f56;
+    transition-duration: 0.3s;
 }

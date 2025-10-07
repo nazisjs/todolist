@@ -14,6 +14,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -50,12 +51,33 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
-@login_required(login_url="login")
-
+    
+class TaskManager:
+    def __init__(self,user):
+        self.user=user
+    def get_tasks(self):
+        return Task.objects.filter(user_owner=self.user).order_by("deadline")
+    def create(self,form):
+        task=form.save(commit=False)
+        task.user_owner=self.user
+        task.save()
+        return task
+    def update(self,task,form):
+        form.save()
+        return task
+    def delete(self,task):
+        task.delete()
+    def mark_done(self,task):
+        task.status=Task.done_status
+        task.save()
+    def change_status(self,task,status):
+        if status in dict(Task.choice_status).keys():
+            task.status=status
+            task.save()
 
 @login_required
 def home(request):
-    tasks=Task.objects.filter(user_owner=request.user).order_by("deadline")
+    tasks=Task.objects.filter(user_owner=request.user).order_by("deadline") 
     myfilter=TaskFilter(request.GET,queryset=tasks)
     tasks=myfilter.qs
 
@@ -72,73 +94,72 @@ def home(request):
 @login_required
 def create_task(request):
     form=TaskForm(request.POST or None)
+    manager=TaskManager(request.user)
     if form.is_valid():
-        task=form.save(commit=False)
-        task.user_owner=request.user
-        task.save()
+        manager.create(form)
         return redirect("home")
     return render(request,"todo_folder/task_create.html",{"form":form})
 
-def task_mark_done(request,pk):
-    task=get_object_or_404(Task,pk=pk)
-    task.status=Task.done_status
-    task.save()
-    return redirect('home')
-
 @login_required
-def update_task(request,pk):
-    task=get_object_or_404(Task,pk=pk,user_owner=request.user)
-    form=TaskForm(request.POST or None, instance=task)
-    if form.is_valid():
-        form.save()
-        return redirect("home")
-    return render(request, "todo_folder/task_update.html",{"form":form})
-
-@login_required
-def delete_task(request,pk):
-    task=get_object_or_404(Task,pk=pk,user_owner=request.user)
-    if request.method =="POST":
-        task.delete()
-        return redirect("home")
-    return render(request,"todo_folder/task_delete.html",{"task":task})
-
-@login_required
-@require_POST
 def change_status(request,pk):
+    manager=TaskManager(request.user)
     task=get_object_or_404(Task,pk=pk,user_owner=request.user)
-    status=request.POST.get("status")
-    if status in dict(Task.choice_status).keys():
-        task.status=status
-        task.save()
+    manager.change_status(task,request.POST.get("status"))
     return redirect("home")
 
+@login_required
+def task_mark_done(request, pk):
+    manager = TaskManager(request.user)
+    task = get_object_or_404(Task, pk=pk, user_owner=request.user)
+    manager.mark_done(task)
+    return redirect("home")
 
-def send_task_reminder(task):
-    if task.user_owner.email:
-        send_mail(
-            "Reminder from Task Tracker!",
-            f"Hi {task.user_owner.username}! "
-            f"1 hour left until your deadline: {task.title}. You better hurry up!",
+@login_required
+def update_task(request, pk):
+    manager = TaskManager(request.user)
+    task = get_object_or_404(Task, pk=pk, user_owner=request.user)
+    form = TaskForm(request.POST or None, instance=task)
+    if form.is_valid():
+        manager.update(task, form)
+        return redirect("home")
+    return render(request, "todo_folder/task_update.html", {"form": form})
+
+@login_required
+def delete_task(request, pk):
+    manager=TaskManager(request.user)
+    task=get_object_or_404(Task, pk=pk, user_owner=request.user)
+    if request.method == "POST":
+        manager.delete(task)
+        return redirect("home")
+    return render(request, "todo_folder/task_delete.html", {"task": task})
+
+
+class ReminderEmail:
+    def __init__(self):
+        self.scheduler=BackgroundScheduler()
+
+    def send_task_reminder(self,task):
+        if task.user_owner.email:
+            send_mail(
+                "Reminder from Task Tracker!",
+                f"Hi {task.user_owner.username}! "
+                f"1 hour left until your deadline: {task.title}. You better hurry up!",
             settings.EMAIL_HOST_USER,
             [task.user_owner.email],
             fail_silently=False
         )
         task.is_notified=True
         task.save()
+        
+    def reminder_deadline(self):
+        now=timezone.now()
+        one_hour_later=now+timedelta(hours=1)
+        tasks=Task.objects.filter(
+        deadline__range=(one_hour_later,one_hour_later+timedelta(minutes=1)),is_notified=False)
+        for task in tasks:
+            self.send_task_reminder(task)
 
-def reminder_deadline():
-    now=timezone.now()
-    one_hour_later=now+timedelta(hours=1)
-    tasks=Task.objects.filter(
-        deadline__range=(one_hour_later,one_hour_later+timedelta(minutes=1)),
-        is_notified=False
-    )
-    
-    for task in tasks:
-        send_task_reminder(task)
+    def start_scheduler(self):
+        self.scheduler.add_job(self.reminder_deadline,'interval',minutes=1)
+        self.scheduler.start()
 
-def start_scheduler():
-    scheduler=BackgroundScheduler()
-    scheduler.add_job(reminder_deadline,'interval',minutes=1)
-    scheduler.start()
-    
