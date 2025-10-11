@@ -50,11 +50,11 @@
         {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
         <table class="task-table">
         <div class="all_requirements">
-            <p class="text"><strong> {{task.title}} | </strong></p>
-            <p class="text">{{task.description}} | </p>
-            <p class="text"> Status:  {{ task.get_status_display }} | </p>
+            <p class="text"><strong> {{task.title}}</strong></p>
+            <p class="text">{{task.description}}</p>
+            <p class="text"> Status:  {{ task.get_status_display }}</p>
             <p class="text"> Deadline: {{ task.deadline|date:"Y-m-d H:i"}} | <br></p>
-            <p class="text">Time left: {{ task.deadline|timeuntil }} | </p>
+            <p class="text">Time left: {{ task.deadline|timeuntil }} </p>
             <form action="{% url 'task_change_status' task.pk %}" method="POST">
                 {% csrf_token %}
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>

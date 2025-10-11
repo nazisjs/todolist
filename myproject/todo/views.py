@@ -110,14 +110,14 @@ def change_status(request,pk):
 @login_required
 def task_mark_done(request, pk):
     manager = TaskManager(request.user)
-    task = get_object_or_404(Task, pk=pk, user_owner=request.user)
+    task = get_object_or_404(Task,pk=pk,user_owner=request.user)
     manager.mark_done(task)
     return redirect("home")
 
 @login_required
 def update_task(request, pk):
     manager = TaskManager(request.user)
-    task = get_object_or_404(Task, pk=pk, user_owner=request.user)
+    task = get_object_or_404(Task,pk=pk,user_owner=request.user)
     form = TaskForm(request.POST or None, instance=task)
     if form.is_valid():
         manager.update(task, form)
@@ -127,7 +127,7 @@ def update_task(request, pk):
 @login_required
 def delete_task(request, pk):
     manager=TaskManager(request.user)
-    task=get_object_or_404(Task, pk=pk, user_owner=request.user)
+    task=get_object_or_404(Task,pk=pk,user_owner=request.user)
     if request.method == "POST":
         manager.delete(task)
         return redirect("home")
