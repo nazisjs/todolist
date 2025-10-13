@@ -46,21 +46,29 @@
         <div class="all">
         <div class="box
         {% if task.status == 'done' %}done
-        {% elif task.deadline_status == 'soon'%}soon
+        {% elif task.status == 'in_progress' %}inprogress
         {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
         <table class="task-table">
         <div class="all_requirements">
-            <p class="text"><strong> {{task.title}}</strong></p>
+            <div class="top-section">
+            <p class="text1"><strong> {{task.title}}</strong></p>
             <p class="text">{{task.description}}</p>
-            <p class="text"> Status:  {{ task.get_status_display }}</p>
-            <p class="text"> Deadline: {{ task.deadline|date:"Y-m-d H:i"}} | <br></p>
+            <div class="deadline-view">
+            <p class="text">Deadline: {{ task.deadline|date:"Y-m-d H:i"}}<br></p>
+            </div>
+            <div class="time-view">
             <p class="text">Time left: {{ task.deadline|timeuntil }} </p>
+            </div>
             <form action="{% url 'task_change_status' task.pk %}" method="POST">
                 {% csrf_token %}
                 <option value="{{ key }}" {% if task.status == key %}selected="selected" {% endif %}>{{ label }}</option>
             </form>
         </div>
         </table>
+        <div class="bottom-section">
+          <div class="status-view">
+            <p class="text">{{ task.get_status_display }}</p>
+            </div>
             <div class="btns">
             <a class="done_btn" href="{% url 'task_mark_done' task.pk %}"><i class="fa-solid fa-check" ></i></a>
             <a class="update_btn" href="{% url 'task_update' task.pk %}"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -68,10 +76,19 @@
             </div>
         </div>
     </div>
+    </div>
         {% empty %}
         <p class="no-text">No tasks have been submitted</p>
         {% endfor %}
     </ul>
     {% endblock %}
 </body>
+<script>
+    if (sessionStorage.getItem("animationPlayed")) {
+        document.body.classList.add("no-animation");
+    } else {
+        sessionStorage.setItem("animationPlayed", "true");
+    }
+</script>
+
 </html>

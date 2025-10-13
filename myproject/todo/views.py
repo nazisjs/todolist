@@ -86,7 +86,7 @@ def home(request):
         if task.deadline<now:
             task.deadline_status="overdue"
         elif task.deadline-now <= timedelta(hours=24):
-            task.deadline_status="soon"
+            task.deadline_status="inprogress"
         else:
             task.deadline_status="normal"
     return render(request,"todo_folder/home.html",{"tasks":tasks, "choice_status": Task.CHOICE_STATUS,"myfilter":myfilter,})
