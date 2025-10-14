@@ -44,10 +44,11 @@
     <ul>
         {% for task in tasks %}
         <div class="all">
-        <div class="box
+       <div class="box
         {% if task.status == 'done' %}done
-        {% elif task.status == 'in_progress' %}inprogress
-        {% elif task.deadline_status == 'overdue'%}overdue{% endif %}">
+        {% elif task.deadline_status == 'overdue' %}overdue
+        {% elif task.deadline_status == 'inprogress' %}inprogress
+        {% endif %}">
         <table class="task-table">
         <div class="all_requirements">
             <div class="top-section">
@@ -70,7 +71,7 @@
             <p class="text">{{ task.get_status_display }}</p>
             </div>
             <div class="btns">
-            <a class="done_btn" href="{% url 'task_mark_done' task.pk %}"><i class="fa-solid fa-check" ></i></a>
+            <a class="done_btn" href="{%url 'task_mark_done' task.pk %}"><i class="fa-solid fa-check" ></i></a>
             <a class="update_btn" href="{% url 'task_update' task.pk %}"><i class="fa-solid fa-pen-to-square"></i></a>
             <a class="delete_btn" href="{% url 'task_delete' task.pk %}"><i class="fa-solid fa-trash"></i></a>
             </div>
@@ -87,7 +88,7 @@
     if (sessionStorage.getItem("animationPlayed")) {
         document.body.classList.add("no-animation");
     } else {
-        sessionStorage.setItem("animationPlayed", "true");
+        sessionStorage.setItem("animationPlayed","true");
     }
 </script>
 

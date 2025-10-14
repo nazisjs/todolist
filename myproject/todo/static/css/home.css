@@ -421,9 +421,6 @@
         transition: none !important;
     }
 
-
-
-
     @media (max-width: 768px) {
         .nav {
             background: #1b4965;
